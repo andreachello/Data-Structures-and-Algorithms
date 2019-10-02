@@ -1,0 +1,64 @@
+"""
+==============================================================
+
+Project Euler n. 12 - Highly divisible triangular number
+
+Author: Andrea Chello
+
+==============================================================
+"""
+
+def triangleNums(num):
+    """
+    :param num:
+    :return: a list of n triangle values
+    """
+    triangle_numbers = []
+    n = 1
+    count = 0
+    for i in range(1, num):
+        #From the property of triangle numbers
+        count += i + (i - n)
+        n += 1
+        triangle_numbers.append(count)
+    return triangle_numbers
+
+#Define the stopping point of the while loop
+stop = 500
+
+#Dictionary accumulation pattern with best key
+d = {}
+d["best key"] = 0
+
+#Initialise the count variables
+i = 1
+j = 0
+triangle_number = 0
+
+#While loop that checks when the best key accumulated in the dictionary is equal to the stop number
+while d["best key"] <= stop:
+
+    i = 1
+    # +=2 so the index doesnt go out of range
+    j += 2
+    count = 0
+    #Get the last value of the triangle numbers list
+    triangle_number = triangleNums(j)[-1]
+
+    #For loop that looks at the values on a compressed range (sqrt(final value))
+    for i in range(1, int(triangle_number**0.5)):
+        #compare the triangle number to each number in the compressed range
+        if triangle_number % (i) == 0:
+            count += 1
+        i += 1
+    #uncompress the value obtained from the compressed range
+    count *= 2
+
+    # Dictionary accumulation pattern done by comparing calculated value
+    # with an initial best key to see which value is greater and therefore occupies
+    # the d["best"] value
+    if count > d["best key"]:
+        d["best key"] = count
+
+#Print out the final results
+print("The value of the first triangle number to have over 500 divisors is: {} with total divisors of: {}".format(triangle_number, d["best key"]))
