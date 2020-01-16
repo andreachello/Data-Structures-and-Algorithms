@@ -1,0 +1,50 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+# Complete the countingValleys function below.
+def countingValleys(n, s):
+    #Separate the Ups and Downs
+    string = []
+    for i in s:
+        for j in i:
+            string.append(j)
+            
+    #Accumulate counter to understand path
+ 
+    """Steps instead scopes for the steps"""
+    steps = []
+    for i in string:
+        if i == "U":
+            steps.append(1)
+        elif i == "D":
+            steps.append(-1)
+            
+    """ Delta count scopes for the change in sign"""
+    delta_count = []
+    count = 0
+    for i in steps:
+        count += i
+        if count == 0 and i < 0:
+            delta_count.append(1)
+        elif count == 0 and i > 0:
+            delta_count.append(-1)
+ 
+    return delta_count.count(-1)
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input())
+
+    s = input()
+
+    result = countingValleys(n, s)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
